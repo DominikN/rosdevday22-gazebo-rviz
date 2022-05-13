@@ -1,0 +1,30 @@
+# Quick Start
+# $ xhost local:root
+# $ docker compose -f compose.pc.yaml up
+
+services:
+  rviz:
+    image: husarion/rviz2:galactic
+    network_mode: service:husarnet-pc
+    volumes: 
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./config/slam.rviz:/root/.rviz2/default.rviz
+      - ./dds-config.xml:/dds-config.xml
+    environment:
+      - DISPLAY
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CYCLONEDDS_URI=file:///dds-config.xml
+
+  husarnet-pc:
+    image: husarnet/husarnet
+    volumes:
+      - /var/lib/husarnet 
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0 
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    environment:
+      - HOSTNAME=rviz2
+      - JOINCODE=${HUSARNET_JOINCODE}
