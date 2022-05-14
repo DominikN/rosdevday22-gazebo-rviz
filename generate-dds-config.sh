@@ -2,7 +2,7 @@
 
 declare -a PEERS=("rosds" "rviz2")
 OUTPUT_PATH="./secret"
-DDS_FILE_NAME="dds-config-cyclone.template.xml"
+DDS_FILE_NAME="dds-config-fastdds.template.xml"
 
 mkdir -p $OUTPUT_PATH
 cp $DDS_FILE_NAME $OUTPUT_PATH/dds-config.xml

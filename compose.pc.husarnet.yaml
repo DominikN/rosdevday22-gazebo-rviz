@@ -8,8 +8,8 @@ services:
     volumes: 
       - ./secret/dds-config.xml:/dds-config.xml
     environment:
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-      - CYCLONEDDS_URI=file:///dds-config.xml
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/dds-config.xml
 
   husarnet-pc:
     image: husarnet/husarnet
