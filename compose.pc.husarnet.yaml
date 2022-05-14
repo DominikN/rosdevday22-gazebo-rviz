@@ -6,7 +6,7 @@ services:
   rviz:
     network_mode: service:husarnet-pc
     volumes: 
-      - ./secret/dds-config.xml:/dds-config.xml
+      - ./secret/dds-config.client.xml:/dds-config.xml
     environment:
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - FASTRTPS_DEFAULT_PROFILES_FILE=/dds-config.xml
