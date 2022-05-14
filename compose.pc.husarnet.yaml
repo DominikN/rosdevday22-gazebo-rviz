@@ -4,14 +4,10 @@
 
 services:
   rviz:
-    image: husarion/rviz2:galactic
     network_mode: service:husarnet-pc
     volumes: 
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ./config/slam.rviz:/root/.rviz2/default.rviz
       - ./secret/dds-config.xml:/dds-config.xml
     environment:
-      - DISPLAY
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       - CYCLONEDDS_URI=file:///dds-config.xml
 
