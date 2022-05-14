@@ -5,6 +5,7 @@ Controlling ROSbot XL running in Gazebo on ROS DS platform from RViz running on 
 ## Testing everything on local device
 
 ```
+xhost local:root
 docker compose -f compose.pc.yaml -f compose.rosds.yaml up
 ```
 
@@ -35,6 +36,7 @@ Finally, generate Husarnet `id` files to know your end-devices Husarnet IPv6 add
 ### laptop
 
 ```
+xhost local:root
 docker compose -f compose.pc.yaml -f compose.pc.husarnet.yaml up
 ```
 
@@ -43,6 +45,7 @@ docker compose -f compose.pc.yaml -f compose.pc.husarnet.yaml up
 Copy a `rosdevday22-gazebo-rviz/secret` folder and `.env` file from your laptop to the ROSject.
 
 ```
+xhost local:root
 docker compose -f compose.rosds.yaml -f compose.rosds.husarnet.yaml up
 ```
 
