@@ -2,7 +2,7 @@
 
 Controlling ROSbot XL running in Gazebo on ROS DS platform from RViz running on a local computer.
 
-## Testing everthing on local device
+## Testing everything on local device
 
 ```
 docker compose -f compose.pc.yaml -f compose.rosds.yaml up
