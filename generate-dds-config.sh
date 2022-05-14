@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -a PEERS=("rosds" "rviz2")
+declare -a PEERS=("rosds" "rviz2" "discovery_server")
 OUTPUT_PATH="./secret"
 DDS_FILE_NAME_1="dds-config.server.template.xml"
 DDS_FILE_NAME_2="dds-config.client.template.xml"

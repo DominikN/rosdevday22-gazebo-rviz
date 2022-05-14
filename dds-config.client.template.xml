@@ -6,11 +6,6 @@
             <transport_descriptor>
                 <transport_id>udpv6_transport</transport_id>
                 <type>UDPv6</type>
-                <interfaceWhiteList>
-                    <address>rviz2</address>
-                    <address>rosds</address>
-                    <address>127.0.0.1</address>
-                </interfaceWhiteList>
                 <maxInitialPeersRange>40</maxInitialPeersRange>
             </transport_descriptor>
         </transport_descriptors>
@@ -21,31 +16,7 @@
                     <transport_id>udpv6_transport</transport_id>
                 </userTransports>
                 <useBuiltinTransports>false</useBuiltinTransports>
-                <defaultUnicastLocatorList>
-                    <locator>
-                        <udpv6>
-                            <address>rviz2</address>
-                        </udpv6>
-                    </locator>
-                    <locator>
-                        <udpv6>
-                            <address>rosds</address>
-                        </udpv6>
-                    </locator>
-                </defaultUnicastLocatorList>
                 <builtin>
-                    <initialPeersList>
-                        <locator>
-                            <udpv6>
-                                <address>rviz2</address>
-                            </udpv6>
-                        </locator>
-                        <locator>
-                            <udpv6>
-                                <address>rosds</address>
-                            </udpv6>
-                        </locator>
-                    </initialPeersList>
                     <discovery_config>
                         <discoveryProtocol>CLIENT</discoveryProtocol>
                         <discoveryServersList>
@@ -53,7 +24,7 @@
                                 <metatrafficUnicastLocatorList>
                                     <locator>
                                         <udpv6>
-                                            <address>rosds</address>
+                                            <address>discovery_server</address>
                                             <port>11811</port>
                                         </udpv6>
                                     </locator>
