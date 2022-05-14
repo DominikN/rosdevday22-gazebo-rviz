@@ -9,7 +9,7 @@ services:
     volumes: 
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config/slam.rviz:/root/.rviz2/default.rviz
-      - ./dds-config.xml:/dds-config.xml
+      - ./secret/dds-config.xml:/dds-config.xml
     environment:
       - DISPLAY
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
@@ -18,7 +18,8 @@ services:
   husarnet-pc:
     image: husarnet/husarnet
     volumes:
-      - /var/lib/husarnet 
+      - /var/lib/husarnet
+      - ./secret/id_rviz2:/var/lib/husarnet/id
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0 
     cap_add:
