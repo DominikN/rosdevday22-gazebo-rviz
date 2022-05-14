@@ -5,11 +5,6 @@
             <transport_descriptor>
                 <transport_id>udpv6_transport</transport_id>
                 <type>UDPv6</type>
-                <interfaceWhiteList>
-                    <address>rviz2</address>
-                    <address>rosds</address>
-                    <address>127.0.0.1</address>
-                </interfaceWhiteList>
                 <maxInitialPeersRange>40</maxInitialPeersRange>
                 <!-- <non_blocking_send>true</non_blocking_send> -->
             </transport_descriptor>
@@ -20,7 +15,7 @@
                 <userTransports>
                     <transport_id>udpv6_transport</transport_id>
                 </userTransports>
-                <!-- <useBuiltinTransports>false</useBuiltinTransports> -->
+                <useBuiltinTransports>false</useBuiltinTransports>
                 <defaultUnicastLocatorList>
                     <locator>
                         <udpv6>
