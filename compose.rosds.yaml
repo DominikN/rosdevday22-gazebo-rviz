@@ -5,43 +5,19 @@
 services:
   rosbot_xl:
     image: husarion/rosbot-xl:galactic-simulation
-    network_mode: service:husarnet-rosds
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ./secret/dds-config.xml:/dds-config.xml
     environment:
       - DISPLAY
       - QT_X11_NO_MITSHM=1
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-      - CYCLONEDDS_URI=file:///dds-config.xml
     command: ros2 launch rosbot_xl_gazebo sim.launch.py
 
   nav2:
     image: husarion/nav2:galactic
-    network_mode: service:husarnet-rosds
     volumes:
       - ./config:/ros2_ws/src/husarion_nav2/config
-      - ./secret/dds-config.xml:/dds-config.xml
-    environment:
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-      - CYCLONEDDS_URI=file:///dds-config.xml
     command: >
       ros2 launch husarion_nav2 navigation2_bringup.launch.py
         use_slam:=True 
         use_auto_localization:=False
         use_sim_time:=True
-
-  husarnet-rosds:
-    image: husarnet/husarnet
-    volumes:
-      - /var/lib/husarnet
-      - ./secret/id_rosds:/var/lib/husarnet/id
-    sysctls:
-      - net.ipv6.conf.all.disable_ipv6=0 
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun
-    environment:
-      - HOSTNAME=rosds
-      - JOINCODE=${HUSARNET_JOINCODE}
