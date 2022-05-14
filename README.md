@@ -40,6 +40,10 @@ docker compose -f compose.pc.yaml -f compose.pc.husarnet.yaml up
 
 ### ROS DS platform
 
+Copy a `rosdevday22-gazebo-rviz/secret` folder and `.env` file from your laptop to the ROSject.
+
 ```
 docker compose -f compose.rosds.yaml -f compose.rosds.husarnet.yaml up
 ```
+
+After Gazebo simulation is ready you should be able to control a robot running in the ROSject from your local computer, over the Internet!
