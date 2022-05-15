@@ -3,6 +3,8 @@ version: v2.0
 builtin:
   - name: "rt/chatter"
     type: "std_msgs::msg::dds_::String_"
+  # - name: "rt/scan"
+  #   type: "sensor_msgs::msg::dds_::LaserScan_"
 
 allowlist:
   # - name: "*"
@@ -17,12 +19,18 @@ participants:
     kind: local
     domain: 0
 
-  - name: ServerWAN
+  - name: ClientWAN
     kind: local-discovery-server
     discovery-server-guid:
-      id: 1
+      id: 2
       ros-discovery-server: true
-    listening-addresses:
-      - ip: discovery_server
-        port: 11811
-        transport: udp
+    connection-addresses:
+      - discovery-server-guid:
+          id: 1
+          ros-discovery-server: true
+        addresses:
+          - ip: discovery_server
+            port: 11811
+            transport: udp
+
+      

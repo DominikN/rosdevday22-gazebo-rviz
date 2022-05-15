@@ -1,19 +1,31 @@
 # Quick Start
-# $ docker compose -f compose.ds.yaml up
+# $ xhost local:root
+# $ docker compose -f compose.rviz.yaml -f compose.rviz.husarnet.yaml up
 
 services:
-  dds-router-ds:
+
+  listener:
+    build: .
+    environment:
+      - ROS_DOMAIN_ID=1
+    command: ros2 run demo_nodes_cpp listener
+
+  rviz:
+    environment:
+      - ROS_DOMAIN_ID=1
+
+  dds-router-rviz:
     image: husarnet/dds-router
-    network_mode: service:husarnet-ds
+    network_mode: service:husarnet-rviz
     volumes:
-      - ./secret/router-config.server.yaml:/config.yaml
+      - ./secret/router-config.rviz.yaml:/config.yaml
     command: ddsrouter -c /config.yaml -r 10 -d
 
-  husarnet-ds:
+  husarnet-rviz:
     image: husarnet/husarnet
     volumes:
       - /var/lib/husarnet
-      - ./secret/id_discovery_server:/var/lib/husarnet/id
+      - ./secret/id_rviz:/var/lib/husarnet/id
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0 
     cap_add:
@@ -21,11 +33,11 @@ services:
     devices:
       - /dev/net/tun
     environment:
-      - HOSTNAME=discovery_server
+      - HOSTNAME=rviz
       - JOINCODE=${HUSARNET_JOINCODE}
 
 # Needed if running all compose.*.yaml files on the same host. Thanks to those lines a new subnet for this compose file is created
 networks:
   default:
-    name: net_discovery_server
+    name: net_rviz
     driver: bridge

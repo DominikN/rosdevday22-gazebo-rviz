@@ -1,25 +1,28 @@
 version: v2.0
 
-# builtin:
-#   - name: "rt/chatter"
-#     type: "std_msgs::msg::dds_::String_"
+builtin:
+  - name: "rt/chatter"
+    type: "std_msgs::msg::dds_::String_"
+  # - name: "rt/scan"
+  #   type: "sensor_msgs::msg::dds_::LaserScan_"
 
 allowlist:
-  
-  - name: "*"
-  # - name: "rt/chatter"
-  #   type: "std_msgs::msg::dds_::String_"
+  # - name: "*"
+  - name: "rt/chatter"
+    type: "std_msgs::msg::dds_::String_"
+  # - name: "rt/scan"
+  #   type: "sensor_msgs::msg::dds_::LaserScan_"
 
 participants:
   
   - name: LocalParticipant
     kind: local
-    domain: 0
+    domain: 1
 
   - name: ClientWAN
     kind: local-discovery-server
     discovery-server-guid:
-      id: 2
+      id: 3
       ros-discovery-server: true
     connection-addresses:
       - discovery-server-guid:
