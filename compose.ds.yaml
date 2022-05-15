@@ -27,3 +27,9 @@ services:
     environment:
       - HOSTNAME=discovery_server
       - JOINCODE=${HUSARNET_JOINCODE}
+
+# Needed if running all compose.*.yaml files on the same host. Thanks to those lines a new subnet for this compose file is created
+networks:
+  default:
+    name: net_ds
+    driver: bridge
