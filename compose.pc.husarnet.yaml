@@ -3,13 +3,12 @@
 # $ docker compose -f compose.pc.yaml -f compose.pc.husarnet.yaml up
 
 services:
-  rviz:
+  dds-router-pc:
+    image: husarnet/dds-router
     network_mode: service:husarnet-pc
-    volumes: 
-      - ./secret/dds-config.client.xml:/dds-config.xml
-    environment:
-      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-      - FASTRTPS_DEFAULT_PROFILES_FILE=/dds-config.xml
+    volumes:
+      - ./secret/router-config.client.yaml:/config.yaml
+    command: ddsrouter -c /config.yaml -r 10
 
   husarnet-pc:
     image: husarnet/husarnet

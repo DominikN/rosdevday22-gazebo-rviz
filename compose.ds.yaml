@@ -1,17 +1,13 @@
 # Quick Start
-# $ xhost local:root
 # $ docker compose -f compose.ds.yaml  up
 
 services:
-  talker:
-    build: .
+  dds-router-ds:
+    image: husarnet/dds-router
     network_mode: service:husarnet-ds
-    volumes: 
-      - ./secret/dds-config.server.xml:/dds-config.xml
-    environment:
-      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-      - FASTRTPS_DEFAULT_PROFILES_FILE=/dds-config.xml
-    command: ros2 run demo_nodes_cpp talker
+    volumes:
+      - ./secret/router-config.server.yaml:/config.yaml
+    command: ddsrouter -c /config.yaml -r 10
 
   husarnet-ds:
     image: husarnet/husarnet
