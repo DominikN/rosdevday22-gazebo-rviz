@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -a PEERS=("rosds" "rviz2")
+declare -a PEERS=("gazebo" "rviz")
 OUTPUT_PATH="./secret"
 DDS_FILE_NAME="dds-config-fastdds.template.xml"
 

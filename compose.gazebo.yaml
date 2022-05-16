@@ -1,6 +1,6 @@
 # Quick Start
 # $ xhost local:root
-# $ docker compose -f compose.rosds.yaml up
+# $ docker compose -f compose.gazebo.yaml up
 
 services:
   rosbot_xl:

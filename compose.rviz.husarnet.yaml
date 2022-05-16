@@ -1,21 +1,21 @@
 # Quick Start
 # $ xhost local:root
-# $ docker compose -f compose.pc.yaml -f compose.pc.husarnet.yaml up
+# $ docker compose -f compose.rviz.yaml -f compose.rviz.husarnet.yaml up
 
 services:
   rviz:
-    network_mode: service:husarnet-pc
+    network_mode: service:husarnet-rviz
     volumes: 
       - ./secret/dds-config.xml:/dds-config.xml
     environment:
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - FASTRTPS_DEFAULT_PROFILES_FILE=/dds-config.xml
 
-  husarnet-pc:
+  husarnet-rviz:
     image: husarnet/husarnet
     volumes:
       - /var/lib/husarnet
-      - ./secret/id_rviz2:/var/lib/husarnet/id
+      - ./secret/id_rviz:/var/lib/husarnet/id
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0 
     cap_add:
@@ -23,5 +23,11 @@ services:
     devices:
       - /dev/net/tun
     environment:
-      - HOSTNAME=rviz2
+      - HOSTNAME=rviz
       - JOINCODE=${HUSARNET_JOINCODE}
+
+# Needed if running all compose.*.yaml files on the same host. Thanks to those lines a new subnet for this compose file is created
+networks:
+  default:
+    name: net_rviz
+    driver: bridge
