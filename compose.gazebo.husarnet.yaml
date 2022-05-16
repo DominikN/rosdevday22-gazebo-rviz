@@ -1,10 +1,10 @@
 # Quick Start
 # $ xhost local:root
-# $ docker compose -f compose.rosds.yaml -f compose.rosds.husarnet.yaml up
+# $ docker compose -f compose.gazebo.yaml -f compose.gazebo.husarnet.yaml up
 
 services:
   rosbot_xl:
-    network_mode: service:husarnet-rosds
+    network_mode: service:husarnet-gazebo
     volumes:
       - ./secret/dds-config.xml:/dds-config.xml
     environment:
@@ -12,18 +12,18 @@ services:
       - CYCLONEDDS_URI=file:///dds-config.xml
 
   nav2:
-    network_mode: service:husarnet-rosds
+    network_mode: service:husarnet-gazebo
     volumes:
       - ./secret/dds-config.xml:/dds-config.xml
     environment:
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       - CYCLONEDDS_URI=file:///dds-config.xml
 
-  husarnet-rosds:
+  husarnet-gazebo:
     image: husarnet/husarnet
     volumes:
       - /var/lib/husarnet
-      - ./secret/id_rosds:/var/lib/husarnet/id
+      - ./secret/id_gazebo:/var/lib/husarnet/id
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0 
     cap_add:
@@ -31,5 +31,11 @@ services:
     devices:
       - /dev/net/tun
     environment:
-      - HOSTNAME=rosds
+      - HOSTNAME=gazebo
       - JOINCODE=${HUSARNET_JOINCODE}
+
+# Needed if running all compose.*.yaml files on the same host. Thanks to those lines a new subnet for this compose file is created
+networks:
+  default:
+    name: net_gazebo
+    driver: bridge

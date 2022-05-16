@@ -10,8 +10,8 @@
         </General>      
         <Discovery>
             <Peers>
-                <Peer address="rosds"/>
-                <Peer address="rviz2"/>
+                <Peer address="gazebo"/>
+                <Peer address="rviz"/>
             </Peers>
             <ParticipantIndex>auto</ParticipantIndex>
             <MaxAutoParticipantIndex>40</MaxAutoParticipantIndex>
