@@ -150,6 +150,7 @@ Create `dds-config.xml` file in the `/home/user` directory, and paste the conten
                 <transport_id>udpv6_transport</transport_id>
                 <type>UDPv6</type>
                 <maxInitialPeersRange>40</maxInitialPeersRange>
+                <!-- <non_blocking_send>true</non_blocking_send> -->
             </transport_descriptor>
         </transport_descriptors>
 
@@ -159,6 +160,24 @@ Create `dds-config.xml` file in the `/home/user` directory, and paste the conten
                     <transport_id>udpv6_transport</transport_id>
                 </userTransports>
                 <useBuiltinTransports>false</useBuiltinTransports>
+                <defaultUnicastLocatorList>
+                    <locator>
+                        <udpv6>
+                            <address>fc94:8da9:3bfe:bcc6:xxxx:xxxx:xxxx:xxxx</address>
+                        </udpv6>
+                    </locator>
+                    <locator>
+                        <udpv6>
+                            <address>fc94:8f7d:2313:xxxx:xxxx:xxxx:xxxx:xxxx</address>
+                        </udpv6>
+                    </locator>
+                    <locator>
+                        <udpv6>
+                            <!-- Place the ROSject's IPv6 address here -->
+                            <address>fc94:252c:ccb0:11db:9e63:e5a3:d6c4:ab5c</address>
+                        </udpv6>
+                    </locator>
+                </defaultUnicastLocatorList>
                 <builtin>
                     <initialPeersList>
                         <locator>
@@ -173,10 +192,30 @@ Create `dds-config.xml` file in the `/home/user` directory, and paste the conten
                         </locator>
                         <locator>
                             <udpv6>
+                                <!-- Place the ROSject's IPv6 address here -->
                                 <address>fc94:252c:ccb0:11db:9e63:e5a3:d6c4:ab5c</address>
                             </udpv6>
                         </locator>
                     </initialPeersList>
+
+                    <metatrafficUnicastLocatorList>
+                        <locator>
+                            <udpv6>
+                                <address>fc94:8da9:3bfe:bcc6:xxxx:xxxx:xxxx:xxxx</address>
+                            </udpv6>
+                        </locator>
+                        <locator>
+                            <udpv6>
+                                <address>fc94:8f7d:2313:xxxx:xxxx:xxxx:xxxx:xxxx</address>
+                            </udpv6>
+                        </locator>
+                        <locator>
+                            <udpv6>
+                                <!-- Place the ROSject's IPv6 address here -->
+                                <address>fc94:252c:ccb0:11db:9e63:e5a3:d6c4:ab5c</address> 
+                            </udpv6>
+                        </locator>
+                    </metatrafficUnicastLocatorList>     
                 </builtin>
             </rtps>
         </participant>

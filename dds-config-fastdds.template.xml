@@ -16,7 +16,7 @@
                     <transport_id>udpv6_transport</transport_id>
                 </userTransports>
                 <useBuiltinTransports>false</useBuiltinTransports>
-                <!-- <defaultUnicastLocatorList>
+                <defaultUnicastLocatorList>
                     <locator>
                         <udpv6>
                             <address>rviz</address>
@@ -27,7 +27,7 @@
                             <address>gazebo</address>
                         </udpv6>
                     </locator>
-                </defaultUnicastLocatorList> -->
+                </defaultUnicastLocatorList>
                 <builtin>
                     <initialPeersList>
                         <locator>
@@ -42,7 +42,7 @@
                         </locator>
                     </initialPeersList>
 
-                    <!-- <metatrafficUnicastLocatorList>
+                    <metatrafficUnicastLocatorList>
                         <locator>
                             <udpv6>
                                 <address>rviz</address>
@@ -53,7 +53,7 @@
                                 <address>gazebo</address>
                             </udpv6>
                         </locator>
-                    </metatrafficUnicastLocatorList>      -->
+                    </metatrafficUnicastLocatorList>     
                 </builtin>
             </rtps>
         </participant>
