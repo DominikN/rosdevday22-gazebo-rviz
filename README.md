@@ -43,7 +43,7 @@ Using DDS Router by eProsima together with Husarnet VPN is a very handy way to c
 
 ```
 xhost local:root
-docker compose -f compose.pc.yaml -f compose.rosds.yaml up
+docker compose -f compose.rviz.yaml -f compose.gazebo.yaml up
 ```
 
 ![Gazebo and RViz running on the same host](.docs/rviz_gazebo.png)
