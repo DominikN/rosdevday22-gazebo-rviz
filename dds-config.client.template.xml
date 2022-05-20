@@ -16,6 +16,13 @@
                     <transport_id>udpv6_transport</transport_id>
                 </userTransports>
                 <useBuiltinTransports>false</useBuiltinTransports>
+                <defaultUnicastLocatorList>
+                    <locator>
+                        <udpv6>
+                            <address>discovery_server</address>
+                        </udpv6>
+                    </locator>
+                </defaultUnicastLocatorList>
                 <builtin>
                     <discovery_config>
                         <discoveryProtocol>CLIENT</discoveryProtocol>
@@ -32,6 +39,13 @@
                             </RemoteServer>
                         </discoveryServersList>
                     </discovery_config>
+                    <initialPeersList>
+                        <locator>
+                            <udpv6>
+                                <address>discovery_server</address>
+                            </udpv6>
+                        </locator>
+                    </initialPeersList>
                 </builtin>
             </rtps>
         </participant>

@@ -3,6 +3,16 @@
 # $ docker compose -f compose.gazebo.yaml -f compose.gazebo.husarnet.yaml up
 
 services:
+  listener-gazebo:
+    build: .
+    network_mode: service:husarnet-gazebo
+    volumes:
+      - ./secret/dds-config.client.xml:/dds-config.xml
+    environment:
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/dds-config.xml
+    command: ros2 run demo_nodes_cpp listener
+
   rosbot_xl:
     network_mode: service:husarnet-gazebo
     volumes:

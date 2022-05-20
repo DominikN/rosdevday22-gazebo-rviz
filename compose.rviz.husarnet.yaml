@@ -3,6 +3,16 @@
 # $ docker compose -f compose.rviz.yaml -f compose.rviz.husarnet.yaml up
 
 services:
+  listener-rviz:
+    build: .
+    network_mode: service:husarnet-rviz
+    volumes:
+      - ./secret/dds-config.client.xml:/dds-config.xml
+    environment:
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/dds-config.xml
+    command: ros2 run demo_nodes_cpp listener
+
   rviz:
     network_mode: service:husarnet-rviz
     volumes: 
