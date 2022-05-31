@@ -1,4 +1,4 @@
-# rosdevday22-gazebo-rviz
+# Connecting the ROSject with remote Gazebo simulation
 
 This ROSject presents how to control [ROSbot XL](https://husarion.com/manuals/rosbot-xl) running in Gazebo simulation using RViz running on remote computer.
 
