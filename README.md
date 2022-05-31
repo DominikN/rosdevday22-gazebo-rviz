@@ -282,8 +282,9 @@ This is the most basic setup for FastDDS. If you would like to connect multiple 
 
 To run the same Docker setup as presented in this instruction, but with a Discovery Server or DDS Router, just take a look at different branches of this repo, eg.:
 
-```
+```bash
 git clone https://github.com/DominikN/rosdevday22-gazebo-rviz.git
-git checkout dds-router
+cd rosdevday22-gazebo-rviz/
+git checkout dds-router # switch to a dds-router branch
 ```
 
