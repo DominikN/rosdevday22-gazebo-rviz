@@ -1,8 +1,18 @@
 # rosdevday22-gazebo-rviz
 
-Controlling ROSbot XL running in Gazebo on ROS DS platform from RViz running on a local computer.
+This ROSject presents how to control [ROSbot XL](https://husarion.com/manuals/rosbot-xl) running in Gazebo simulation with using RViz running on remote computer.
 
-Husarnet VPN is a very handy way to connect remote ROS 2 nodes over WAN. In this project the simulation model of Husarion ROSbot XL together with Nav2 is running on the local computer and we control it from RViz running in the ROSject.
+![System architecture](.docs/system-architecture.drawio.png)
+
+> **Note**
+>
+> You can also run setups for PC 1 and PC 2 on the same computer.
+
+You will learn:
+
+- How to connect remote Docker containers running ROS 2 nodes over the Internet, and how to connect a normal host to this ROS 2 network without Docker (like a ROSject)
+- How to run ROS 2 nodes in Docker the right way
+- How a good Docker architecture should look like and how to appy microservice attitude to ROS 2 & Docker
 
 > **Prerequisites**
 >
@@ -39,18 +49,45 @@ Husarnet VPN is a very handy way to connect remote ROS 2 nodes over WAN. In this
 >
 > The proper version of Docker and Docker Compose are already installed in the ROSject
 
-## Testing everything on local device
+## Clone the project repository on your laptop
+
+If your have Docker & Docker Compose installed, all resources you need to run this project are present in [this GitHub repo](https://github.com/DominikN/rosdevday22-gazebo-rviz).
+
+Clone it on your laptop:
+
+```bash
+git clone https://github.com/DominikN/rosdevday22-gazebo-rviz.git
+```
+
+## [Task 1] Testing everything on your laptop
+
+Before we dive into distributing our Docker container based setup across multiple computers by using [Husarnet P2P VPN Client](https://husarnet.com/), let's just run our setup on a single computer, without any VPN at all.
+
+On your laptop, open the Linux terminal and run:
 
 ```
 xhost local:root
 docker compose -f compose.rviz.yaml -f compose.gazebo.yaml up
 ```
 
+After a while your should be able to control Gazebo simulation by using RViz.
+
 ![Gazebo and RViz running on the same host](.docs/rviz_gazebo.png)
 
-## Running on remote devices
+Note that we started containers defined in two `compose.*.yaml` files at once. If you specify multiple files with `-f` flag, compose will merge all files into a single setup executed at once.
 
-Get your Husarnet VPN `Join Code` first:
+This pattern will be very handy while executing `compose.rviz.yaml` and `compose.gazebo.yaml` files on remote computers, because there will be no code repetition, and we will simply define additional `compose.*.husarnet.yaml` files that will extend containers setups allowing them to talk over Husarnet VPN.
+
+![Separate compose files with ROS setup and with network setup](.docs/compose_pattern.png)
+
+
+In a similar way, if you would need to run your container based setup in LAN, you would define `compose.*.lan.yaml` files with a setup specific for LAN networking. This approach with separate `compose.*.yaml` files for ROS setup and for network setup will make your projects clearner and easier to maintain.
+
+## [Task 2] Running on remote devices
+
+Now let's connect Docker containers running on remote computer with using Husarnet VPN running in a Docker Container. Thanks to that approach we do not need to install Husarnet natively on our devices that keeps the setup safer (Docker host OS can not be accessed) and easier to start.
+
+To connect your containers over the Internet get your Husarnet VPN `Join Code` first:
 
 1. Log in to https://app.husarnet.com/
 2. Select or create a network
@@ -70,16 +107,16 @@ Finally, generate Husarnet `id` files to know your end-devices Husarnet IPv6 add
 ./generate-dds-config.sh
 ```
 
-Now on the same, or on different hosts, in different networks launch Docker deployments for `rviz` and `gazebo` Husarnet hostnames:
+Now on the same, or on different hosts (laptops), in the same or different networks launch Docker deployments for `rviz` and `gazebo`:
 
-### `rviz` device
+### PC 1: running `rviz`
 
 ```
 xhost local:root
 docker compose -f compose.rviz.yaml -f compose.rviz.husarnet.yaml up
 ```
 
-### `gazebo` device
+### PC 2: running `gazebo`
 
 ```
 xhost local:root
@@ -90,9 +127,9 @@ At this point you should be able to control the ROSbot XL simulation model from 
 
 ### ROS DS platform
 
-OK, so you know how to run dockerized setup on three different devices. So right now let's try to control the Gazebo model running on your laptop from RViz running in the ROS DS.
+OK, so you know how to run dockerized setup on two different devices. So right now let's try to control the Gazebo model running on your laptop from RViz running in the ROS DS.
 
-This ROSject is based on ROS 2 Galactic that is shipped with a Cyclone DDS by default that supports only the Simple discovery mechanism. Fast DDS is the only one that supports Discovery Server, so we need to install it and use the custom XML config:
+This ROSject is based on ROS 2 Galactic that is shipped with a Cyclone DDS by default. Let's install FastDDS to keep the same RMW (ROS Middleware) implementation for the whole system. 
 
 Run all commands bellow in your ROSject. It's handy to do it as a root user:
 
@@ -139,7 +176,7 @@ Peer fc94:b01d:1803:8dd8:b293:5c7d:7639:932a
   secure connection established
 ```
 
-Create `dds-config.xml` file in the `/home/user` directory, and paste the content of `rosdevday22-gazebo-rviz/secret/dds-config.xml` from your laptop. Add a new record with your ROSject's Husarnet IPv6 address:
+Create the `dds-config.xml` file in the `/home/user` directory, and paste the content of `rosdevday22-gazebo-rviz/secret/dds-config.xml` file from your laptop. Add a new record with your ROSject's Husarnet IPv6 address:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -227,12 +264,26 @@ Save the file.
 
 #### Running the RViz with FastDDS and a custom XML configuration
 
-In the ROSject create `/home/user/.rviz2/default.rviz` file and paste `rosdevday22-gazebo-rviz/config/slam.rviz` file content inside.
+In the ROSject create `/home/user/.rviz2/default.rviz` file and paste `rosdevday22-gazebo-rviz/config/slam.rviz` file content inside. Thanks to that we will use a 
 
-Now execute this command in the ROSject's Linux terminal control your Gazebo model remotely:
+Now execute this command in the ROSject's Linux terminal and control your Gazebo model (running on your laptop) remotely:
 
 ```
 RMW_IMPLEMENTATION=rmw_fastrtps_cpp \
 FASTRTPS_DEFAULT_PROFILES_FILE=/home/user/dds-config.xml \
 ros2 run rviz2 rviz2
 ```
+
+## Summary & further tips
+
+You learned how to connect ROS 2 nodes running on remote laptops, both in Docker and operating directly on your host OS.
+
+This is the most basic setup for FastDDS. If you would like to connect multiple devices running ROS 2 over the Internet, FastDDS offers a [Discovery Server](https://husarnet.com/blog/ros2-dds-discovery-server) and a [DDS Router](https://husarnet.com/blog/ros2-dds-router/), that will make your system much more scalable.
+
+To run the same Docker setup as presented in this instruction, but with a Discovery Server or DDS Router, just take a look at different branches of this repo, eg.:
+
+```
+git clone https://github.com/DominikN/rosdevday22-gazebo-rviz.git
+git checkout dds-router
+```
+
