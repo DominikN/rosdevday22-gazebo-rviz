@@ -1,6 +1,6 @@
 # rosdevday22-gazebo-rviz
 
-This ROSject presents how to control [ROSbot XL](https://husarion.com/manuals/rosbot-xl) running in Gazebo simulation with using RViz running on remote computer.
+This ROSject presents how to control [ROSbot XL](https://husarion.com/manuals/rosbot-xl) running in Gazebo simulation using RViz running on remote computer.
 
 ![System architecture](.docs/system-architecture.drawio.png)
 
@@ -12,7 +12,7 @@ You will learn:
 
 - How to connect remote Docker containers running ROS 2 nodes over the Internet, and how to connect a normal host to this ROS 2 network without Docker (like a ROSject)
 - How to run ROS 2 nodes in Docker the right way
-- How a good Docker architecture should look like and how to appy microservice attitude to ROS 2 & Docker
+- How a good Docker architecture should look like and how to apply microservice attitude to ROS 2 & Docker
 
 > **Prerequisites**
 >
@@ -51,7 +51,7 @@ You will learn:
 
 ## Clone the project repository on your laptop
 
-If your have Docker & Docker Compose installed, all resources you need to run this project are present in [this GitHub repo](https://github.com/DominikN/rosdevday22-gazebo-rviz).
+If you have Docker & Docker Compose installed, all resources you need to run this project are present in [this GitHub repo](https://github.com/DominikN/rosdevday22-gazebo-rviz).
 
 Clone it on your laptop:
 
@@ -70,7 +70,7 @@ xhost local:root
 docker compose -f compose.rviz.yaml -f compose.gazebo.yaml up
 ```
 
-After a while your should be able to control Gazebo simulation by using RViz.
+After a while you should be able to control Gazebo simulation by using RViz.
 
 ![Gazebo and RViz running on the same host](.docs/rviz_gazebo.png)
 
@@ -81,11 +81,11 @@ This pattern will be very handy while executing `compose.rviz.yaml` and `compose
 ![Separate compose files with ROS setup and with network setup](.docs/compose_pattern.png)
 
 
-In a similar way, if you would need to run your container based setup in LAN, you would define `compose.*.lan.yaml` files with a setup specific for LAN networking. This approach with separate `compose.*.yaml` files for ROS setup and for network setup will make your projects clearner and easier to maintain.
+In a similar way, if you would need to run your container based setup in LAN, you would define `compose.*.lan.yaml` files with a setup specific for LAN networking. This approach with separate `compose.*.yaml` files for ROS setup and for network setup will make your projects cleaner and easier to maintain.
 
 ## [Task 2] Running on remote devices
 
-Now let's connect Docker containers running on remote computer with using Husarnet VPN running in a Docker Container. Thanks to that approach we do not need to install Husarnet natively on our devices that keeps the setup safer (Docker host OS can not be accessed) and easier to start.
+Now let's connect Docker containers running on a remote computer with a Husarnet VPN running in a Docker Container. Thanks to that approach we do not need to install Husarnet natively on our devices that keeps the setup safer (Docker host OS can not be accessed) and easier to start.
 
 To connect your containers over the Internet get your Husarnet VPN `Join Code` first:
 
@@ -101,7 +101,7 @@ Next create an `.env` file and place your Husarnet Join Code here:
 HUSARNET_JOINCODE=fc94:b01d:1803:8dd8:b293:5c7d:7639:932a/xxxxxxxxxxxxxxxxxxxxxx
 ```
 
-Finally, generate Husarnet `id` files to know your end-devices Husarnet IPv6 addresses before the first run. The same IP addresses are needed to be copied then to a custom `dds-config.xml` file to the section with **known hosts** (because mulitcasting over VPN is not recommended - [read more](https://husarnet.com/blog/ros2-dds-discovery-server/#using-multicasting-based-dds-simple-discovery)). Of course it could be done manually, but I have created a simple bash script to do so. Just run:
+Finally, generate Husarnet `id` files to know your end-devices Husarnet IPv6 addresses before the first run. The same IP addresses are needed to be copied then to a custom `dds-config.xml` file to the section with **known hosts** (because multicasting over VPN is not recommended - [read more](https://husarnet.com/blog/ros2-dds-discovery-server/#using-multicasting-based-dds-simple-discovery)). Of course it could be done manually, but I have created a simple bash script to do so. Just run:
 
 ```
 ./generate-dds-config.sh
@@ -131,7 +131,7 @@ OK, so you know how to run dockerized setup on two different devices. So right n
 
 This ROSject is based on ROS 2 Galactic that is shipped with a Cyclone DDS by default. Let's install FastDDS to keep the same RMW (ROS Middleware) implementation for the whole system. 
 
-Run all commands bellow in your ROSject. It's handy to do it as a root user:
+Run all commands below in your ROSject. It's handy to do it as a root user:
 
 ```
 sudo su
@@ -141,7 +141,7 @@ sudo su
 
 ROSjects are Docker containers by their own and we can not run our own containers inside. So we need to configure everything on the "ROSject host" level, without Docker. 
 
-Husarnet VPN client is preinstalled inside this ROSject.  ROSjects don't have systemd, so to start Husarnet daemon, open a new terminal window and run:
+The Husarnet VPN client is pre-installed inside this ROSject.  ROSjects don't have systemd, so to start Husarnet daemon, open a new terminal window and run:
 
 ```
 sudo husarnet daemon
@@ -276,7 +276,7 @@ ros2 run rviz2 rviz2
 
 ## Summary & further tips
 
-You learned how to connect ROS 2 nodes running on remote laptops, both in Docker and operating directly on your host OS.
+You learned how to connect ROS 2 nodes running on remote computers, both in Docker and operating directly on your host OS.
 
 This is the most basic setup for FastDDS. If you would like to connect multiple devices running ROS 2 over the Internet, FastDDS offers a [Discovery Server](https://husarnet.com/blog/ros2-dds-discovery-server) and a [DDS Router](https://husarnet.com/blog/ros2-dds-router/), that will make your system much more scalable.
 
